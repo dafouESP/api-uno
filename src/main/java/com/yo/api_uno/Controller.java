@@ -64,6 +64,16 @@ public class Controller {
         return new ResponseEntity<>("Todo borrado", HttpStatus.OK);
     }
 
-
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Model> actualizarUno(@PathVariable String id, @RequestBody Model model){
+        Optional<Model> optionalModel = repositorio.findById(id);
+        if(optionalModel.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            Model modelActualizado = optionalModel.get();
+            repositorio.save(modelActualizado);
+            return new ResponseEntity<>(modelActualizado, HttpStatus.OK);
+        }
+    }
 
 }
